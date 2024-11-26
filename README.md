@@ -14,8 +14,10 @@
 - API: JSONPlaceholder
 - Управление состоянием: Pinia
 - Маршрутизация: Vue Router
+- Vite
 
 ## Текущая реализация:
+https://aleks-jgn.github.io/bitbanker-test/
 - На гавной странице есть кнопка "Load Posts" - она подгружает на страницу посты из https://jsonplaceholder.typicode.com/posts
 - Каждый пост кликабелен для просмотра
 - Каждый пост можно удалить кнопкой "Delete"
