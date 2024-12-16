@@ -21,8 +21,8 @@
     </div>
 
     <div class="top-links">
-      <a class="h-link" href="#posts-list"># Load</a>
-      <a class="h-link" href="#post-add"># Add</a>
+      <div><a class="h-link" href="#posts-list"># Load</a></div>
+      <div><a class="h-link" href="#post-add"># Add</a></div>
     </div>
 
     <!-- Кнопка для загрузки постов -->
@@ -31,7 +31,7 @@
     </button>
 
     <!-- Список постов -->
-    <ul v-if="!isLoading && posts.length" id="posts-list">
+    <ul v-if="!isLoading && posts.length" id="posts-list" ref="topElement">
       <li v-for="post in posts" :key="post.id">
         <router-link :to="{ name: 'Post', params: { id: post.id }}">{{ post.title }}</router-link>
         <div class="btn-wrap">
@@ -44,6 +44,7 @@
     <p v-if="isLoading">Loading...</p>
 
     <!-- Модальное окно для редактирования поста -->
+    <div ref="editingElement" class="editingElement"></div>
     <div v-if="editingPost">
       <h3>Edit Post</h3>
       <form @submit.prevent="handleEditPost">
@@ -97,15 +98,24 @@ export default defineComponent({
     const editPost = postStore.editPost;
     const deletePost = postStore.deletePost;
 
+    // Прокрутка
+    const topElement = ref<HTMLElement | null>(null);
+    const editingElement = ref<HTMLElement | null>(null);
+    const scrollTo = (view: Ref<HTMLElement | null>) => {
+      view.value?.scrollIntoView({ behavior: 'smooth' })
+    };
+
     // Добавление нового поста
     const handleAddPost = () => {
       addPost(newPost.value);
       newPost.value = { title: '', body: '', userId: 1 }; // Очистка формы
+      scrollTo(topElement);
     };
 
     // Начало редактирования
     const startEditing = (post: Post) => {
       editingPost.value = { ...post }; // Копируем свойства поста
+      scrollTo(editingElement);
     };
 
     // Завершение редактирования
@@ -133,6 +143,9 @@ export default defineComponent({
       handleEditPost,
       cancelEditing,
       deletePost,
+      topElement,
+      editingElement,
+      scrollTo,
     };
   },
 });
@@ -188,12 +201,16 @@ export default defineComponent({
     font-size: 20px;
     text-transform: capitalize;
     text-decoration: none;
-    display: block;
+    display: inline-block;
     margin-bottom: 10px;
   }
 
   a:hover {
     text-decoration: underline;
+  }
+
+  #posts-list {
+    padding-top: 50px;
   }
 
   #posts-list a {

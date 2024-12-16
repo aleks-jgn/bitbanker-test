@@ -18,6 +18,10 @@ export default {
     scroll-behavior: smooth;
   }
 
+  #app {
+    padding-bottom: 200px;
+  }
+
   input, textarea {
     box-sizing: border-box;
   }
