@@ -99,23 +99,20 @@ export default defineComponent({
     const deletePost = postStore.deletePost;
 
     // Прокрутка
-    const topElement = ref<HTMLElement | null>(null);
-    const editingElement = ref<HTMLElement | null>(null);
-    const scrollTo = (view: Ref<HTMLElement | null>) => {
-      view.value?.scrollIntoView({ behavior: 'smooth' })
-    };
+    const topElement = ref();
+    const editingElement = ref();
 
     // Добавление нового поста
     const handleAddPost = () => {
       addPost(newPost.value);
       newPost.value = { title: '', body: '', userId: 1 }; // Очистка формы
-      scrollTo(topElement);
+      topElement.value.scrollIntoView({ behavior: "smooth" });
     };
 
     // Начало редактирования
     const startEditing = (post: Post) => {
       editingPost.value = { ...post }; // Копируем свойства поста
-      scrollTo(editingElement);
+      editingElement.value.scrollIntoView({ behavior: "smooth" });
     };
 
     // Завершение редактирования
@@ -216,5 +213,9 @@ export default defineComponent({
   #posts-list a {
     color: #000000;
     font-size: 18px;
+  }
+
+  h2#post-add {
+    margin-top: 35px;
   }
 </style>

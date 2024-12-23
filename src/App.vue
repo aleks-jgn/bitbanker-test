@@ -18,6 +18,10 @@ export default {
     scroll-behavior: smooth;
   }
 
+  body {
+    padding: 10px;
+  }
+
   #app {
     padding-bottom: 200px;
   }
